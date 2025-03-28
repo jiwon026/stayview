@@ -16,6 +16,9 @@ selected_hotel = st.selectbox("호텔을 선택하세요", hotels)
 # 선택한 호텔 정보 필터링
 hotel_data = df[df['Hotel'] == selected_hotel].iloc[0]
 
+# 지역 선택
+st.write(f"📍 호텔 지역: {hotel_data['Location']}")
+
 # 컬럼 나누기
 col1, col2 = st.columns(2)
 
