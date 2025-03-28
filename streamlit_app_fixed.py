@@ -8,16 +8,17 @@ df = pd.read_csv(data_path, encoding='euc-kr')
 st.set_page_config(page_title="호텔 리뷰 감성 요약", layout="wide")
 st.title("🏨 호텔 리뷰 요약 및 항목별 분석")
 
-# 호텔 선택
-df = df.dropna(subset=['Hotel'])  # 혹시 모를 NaN 방지
-hotels = df['Hotel'].unique()
-selected_hotel = st.selectbox("호텔을 선택하세요", hotels)
-
-# 선택한 호텔 정보 필터링
-hotel_data = df[df['Hotel'] == selected_hotel].iloc[0]
-
 # 지역 선택
-st.write(f"📍 호텔 지역: {hotel_data['Location']}")
+regions = df['Location'].unique()
+selected_region = st.selectbox("지역을 선택하세요", regions)
+
+# 해당 지역의 호텔 목록 필터링
+region_hotels = df[df['Location'] == selected_region]['Hotel'].unique()
+selected_hotel = st.selectbox("호텔을 선택하세요", region_hotels)
+
+# 선택한 호텔 정보 가져오기
+hotel_data = df[(df['Location'] == selected_region) & (df['Hotel'] == selected_hotel)].iloc[0]
+
 
 # 컬럼 나누기
 col1, col2 = st.columns(2)
