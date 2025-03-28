@@ -25,11 +25,11 @@ hotel_data = df[(df['Location'] == selected_region) & (df['Hotel'] == selected_h
 col1, col2 = st.columns(2)
 
 with col1:
-    st.subheader("✅ 긍정 요약")
+    st.subheader("✅ 긍정 리뷰 요약")
     st.write(hotel_data['Refined_Positive'])
 
 with col2:
-    st.subheader("🚫 부정 요약")
+    st.subheader("🚫 부정 리뷰 요약")
     st.write(hotel_data['Refined_Negative'])
 
 # 감성 점수 시각화
