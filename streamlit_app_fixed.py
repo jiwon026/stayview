@@ -1,5 +1,6 @@
 import streamlit as st
 import pandas as pd
+import altair as alt
 
 # 수정된 CSV 파일 경로 (Streamlit Cloud용 상대 경로)
 data_path = "final_all.csv"
@@ -35,9 +36,31 @@ with col2:
 st.markdown("---")
 st.subheader("📊 항목별 평균 점수")
 
+# 점수 데이터 추출
 aspect_columns = ['소음', '가격', '위치', '서비스', '청결', '편의시설']
 aspect_scores = hotel_data[aspect_columns]
-st.bar_chart(aspect_scores)
+
+# DataFrame으로 변환
+score_df = pd.DataFrame({
+    '항목': aspect_scores.index,
+    '점수': aspect_scores.values
+})
+
+# Altair 차트
+chart = alt.Chart(score_df).mark_bar().encode(
+    x=alt.X('항목', sort=None),
+    y='점수',
+    color=alt.condition(
+        alt.datum.점수 < 0,
+        alt.value('red'),      # 음수면 빨간색
+        alt.value('steelblue') # 양수면 파란색
+    )
+).properties(
+    width=600,
+    height=400
+)
+
+st.altair_chart(chart, use_container_width=True)
 
 # Raw 데이터 보기
 with st.expander("📄 원본 데이터 보기"):
