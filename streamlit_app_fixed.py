@@ -38,7 +38,7 @@ region_df = df[df['Location'] == selected_region]
 
 # 호텔 선택
 region_hotels = region_df['Hotel'].unique()
-selected_hotel = st.selectbox("🏨 호텔을 선택하세요", ["전체 보기"] +  region_hotels)
+selected_hotel = st.selectbox("🏨 호텔을 선택하세요", ["전체 보기"] + list(region_hotels))
 
 # 선택된 호텔 데이터
 hotel_data = region_df[region_df['Hotel'] == selected_hotel].iloc[0]
