@@ -36,6 +36,13 @@ selected_region = st.radio("📍 지역을 선택하세요", regions, horizontal
 # 지역 필터링
 region_df = df[df['Location'] == selected_region]
 
+# 호텔 선택
+region_hotels = region_df['Hotel'].unique()
+selected_hotel = st.selectbox("🏨 호텔을 선택하세요", region_hotels)
+
+# 선택된 호텔 데이터
+hotel_data = region_df[region_df['Hotel'] == selected_hotel].iloc[0]
+
 # 지도에 호텔 위치 표시 (위도/경도 없으면 중심 좌표로 대체)
 region_df['Latitude'] = region_coords[selected_region][0]
 region_df['Longitude'] = region_coords[selected_region][1]
@@ -46,13 +53,6 @@ map_df.columns = ['lat', 'lon']
 
 st.subheader(f"🗺️ {selected_region} 지역 호텔 지도")
 st.map(map_df)
-
-# 호텔 선택
-region_hotels = region_df['Hotel'].unique()
-selected_hotel = st.selectbox("🏨 호텔을 선택하세요", region_hotels)
-
-# 선택된 호텔 데이터
-hotel_data = region_df[region_df['Hotel'] == selected_hotel].iloc[0]
 
 # 컬럼 나누기
 col1, col2 = st.columns(2)
