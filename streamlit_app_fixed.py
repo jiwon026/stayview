@@ -75,35 +75,35 @@ else:
         st.subheader("🚫 부정 요약")
         st.write(hotel_data['Refined_Negative'])
     # 감성 점수 시각화
-st.markdown("---")
-st.subheader("📊 항목별 평균 점수")
-
-# 점수 데이터 추출
-aspect_columns = ['소음', '가격', '위치', '서비스', '청결', '편의시설']
-aspect_scores = hotel_data[aspect_columns]
-
-# DataFrame으로 변환
-score_df = pd.DataFrame({
-    '항목': aspect_scores.index,
-    '점수': aspect_scores.values
-})
-
-# Altair 차트
-chart = alt.Chart(score_df).mark_bar().encode(
-    x=alt.X('항목', sort=None),
-    y='점수',
-    color=alt.condition(
-        alt.datum.점수 < 0,
-        alt.value('crimson'),      # 음수면 빨간색
-        alt.value('steelblue') # 양수면 파란색
+    st.markdown("---")
+    st.subheader("📊 항목별 평균 점수")
+    
+    # 점수 데이터 추출
+    aspect_columns = ['소음', '가격', '위치', '서비스', '청결', '편의시설']
+    aspect_scores = hotel_data[aspect_columns]
+    
+    # DataFrame으로 변환
+    score_df = pd.DataFrame({
+        '항목': aspect_scores.index,
+        '점수': aspect_scores.values
+    })
+    
+    # Altair 차트
+    chart = alt.Chart(score_df).mark_bar().encode(
+        x=alt.X('항목', sort=None),
+        y='점수',
+        color=alt.condition(
+            alt.datum.점수 < 0,
+            alt.value('crimson'),      # 음수면 빨간색
+            alt.value('steelblue') # 양수면 파란색
+        )
+    ).properties(
+        width=600,
+        height=400
     )
-).properties(
-    width=600,
-    height=400
-)
-
-st.altair_chart(chart, use_container_width=True)
-
-# Raw 데이터 보기
-with st.expander("📄 원본 데이터 보기"):
-    st.dataframe(df[df['Hotel'] == selected_hotel].reset_index(drop=True))
+    
+    st.altair_chart(chart, use_container_width=True)
+    
+    # Raw 데이터 보기
+    with st.expander("📄 원본 데이터 보기"):
+        st.dataframe(df[df['Hotel'] == selected_hotel].reset_index(drop=True))
