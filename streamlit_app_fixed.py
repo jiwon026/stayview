@@ -40,8 +40,6 @@ region_df = df[df['Location'] == selected_region]
 region_hotels = region_df['Hotel'].unique()
 selected_hotel = st.selectbox("🏨 호텔을 선택하세요", ["전체 보기"] + list(region_hotels))
 
-# 선택된 호텔 데이터
-st.dataframe(region_df[['Hotel']], hide_index=True)
 
 # 지도에 호텔 위치 표시 (위도/경도 없으면 중심 좌표로 대체)
 region_df['Latitude'] = region_coords[selected_region][0]
