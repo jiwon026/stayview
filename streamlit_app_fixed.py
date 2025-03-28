@@ -54,9 +54,6 @@ if selected_hotel == "전체 보기":
     map_df.columns = ['lat', 'lon']
     st.map(map_df)
 
-# 컬럼 나누기
-col1, col2 = st.columns(2)
-
 else:
     # 선택된 호텔 정보만 표시
     hotel_data = region_df[region_df['Hotel'] == selected_hotel].iloc[0]
