@@ -33,21 +33,26 @@ st.title("🏨 호텔 리뷰 요약 및 항목별 분석")
 regions = df['Location'].unique()
 selected_region = st.radio("📍 지역을 선택하세요", regions, horizontal=True)
 
-# 해당 지역의 호텔 목록 필터링
-region_hotels = df[df['Location'] == selected_region]['Hotel'].unique()
+# 지역 필터링
+region_df = df[df['Location'] == selected_region]
+
+# 지도에 호텔 위치 표시 (위도/경도 없으면 중심 좌표로 대체)
+region_df['Latitude'] = region_coords[selected_region][0]
+region_df['Longitude'] = region_coords[selected_region][1]
+
+# 지도 시각화용 데이터프레임
+map_df = region_df[['Latitude', 'Longitude']]
+map_df.columns = ['lat', 'lon']
+
+st.subheader(f"🗺️ {selected_region} 지역 호텔 지도")
+st.map(map_df)
+
+# 호텔 선택
+region_hotels = region_df['Hotel'].unique()
 selected_hotel = st.selectbox("🏨 호텔을 선택하세요", region_hotels)
 
-# 선택한 호텔 정보 가져오기
-hotel_data = df[(df['Location'] == selected_region) & (df['Hotel'] == selected_hotel)].iloc[0]
-
-# 지역 중심 지도 표시
-lat, lon = region_coords.get(hotel_data['Location'], (None, None))
-
-if lat and lon:
-    st.subheader("🗺️ 지역 중심 지도")
-    st.map(pd.DataFrame({'lat': [lat], 'lon': [lon]}))
-else:
-    st.warning("⚠️ 해당 지역의 좌표 정보가 없습니다.")
+# 선택된 호텔 데이터
+hotel_data = region_df[region_df['Hotel'] == selected_hotel].iloc[0]
 
 # 컬럼 나누기
 col1, col2 = st.columns(2)
