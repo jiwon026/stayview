@@ -52,7 +52,7 @@ chart = alt.Chart(score_df).mark_bar().encode(
     y='점수',
     color=alt.condition(
         alt.datum.점수 < 0,
-        alt.value('red'),      # 음수면 빨간색
+        alt.value('crimson'),      # 음수면 빨간색
         alt.value('steelblue') # 양수면 파란색
     )
 ).properties(
