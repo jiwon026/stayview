@@ -35,33 +35,48 @@ selected_region = st.radio("📍 지역을 선택하세요", regions, horizontal
 
 # 지역 필터링
 region_df = df[df['Location'] == selected_region]
+region_hotels = region_df['Hotel'].unique()
 
 # 호텔 선택
-region_hotels = region_df['Hotel'].unique()
 selected_hotel = st.selectbox("🏨 호텔을 선택하세요", ["전체 보기"] + list(region_hotels))
 
 
-# 지도에 호텔 위치 표시 (위도/경도 없으면 중심 좌표로 대체)
-region_df['Latitude'] = region_coords[selected_region][0]
-region_df['Longitude'] = region_coords[selected_region][1]
+# 지도 데이터 준비
+if selected_hotel == "전체 보기":
+    # 지역 중심 좌표 사용
+    lat, lon = region_coords.get(selected_region, (None, None))
+    region_df['Latitude'] = lat
+    region_df['Longitude'] = lon
 
-# 지도 시각화용 데이터프레임
-map_df = region_df[['Latitude', 'Longitude']]
-map_df.columns = ['lat', 'lon']
-
-st.subheader(f"🗺️ {selected_region} 지역 호텔 지도")
-st.map(map_df)
+    # 지역 전체 지도 표시
+    st.subheader(f"🗺️ {selected_region} 지역 호텔 지도")
+    map_df = region_df[['Latitude', 'Longitude']].dropna()
+    map_df.columns = ['lat', 'lon']
+    st.map(map_df)
 
 # 컬럼 나누기
 col1, col2 = st.columns(2)
 
-with col1:
-    st.subheader("✅ 긍정 리뷰 요약")
-    st.write(hotel_data['Refined_Positive'])
+else:
+    # 선택된 호텔 정보만 표시
+    hotel_data = region_df[region_df['Hotel'] == selected_hotel].iloc[0]
 
-with col2:
-    st.subheader("🚫 부정 리뷰 요약")
-    st.write(hotel_data['Refined_Negative'])
+    # 중심 좌표로 지도 만들기 (나중에 위경도 붙이면 더 정확히!)
+    lat, lon = region_coords.get(selected_region, (None, None))
+    st.subheader(f"🗺️ '{selected_hotel}' 위치")
+    st.map(pd.DataFrame({'lat': [lat], 'lon': [lon]}))
+
+    # 요약 출력
+    st.markdown("### ✨ 선택한 호텔 요약")
+    col1, col2 = st.columns(2)
+
+    with col1:
+        st.subheader("✅ 긍정 요약")
+        st.write(hotel_data['Refined_Positive'])
+
+    with col2:
+        st.subheader("🚫 부정 요약")
+        st.write(hotel_data['Refined_Negative'])
 
 # 감성 점수 시각화
 st.markdown("---")
