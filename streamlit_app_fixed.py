@@ -35,7 +35,7 @@ selected_region = st.selectbox("지역을 선택하세요", regions)
 
 # 해당 지역의 호텔 목록 필터링
 region_hotels = df[df['Location'] == selected_region]['Hotel'].unique()
-selected_hotel = st.selectbox("호텔을 선택하세요", region_hotels)
+selected_region = st.radio("📍 지역을 선택하세요", regions, horizontal=True)
 
 # 선택한 호텔 정보 가져오기
 hotel_data = df[(df['Location'] == selected_region) & (df['Hotel'] == selected_hotel)].iloc[0]
