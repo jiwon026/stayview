@@ -74,8 +74,7 @@ else:
     with col2:
         st.subheader("🚫 부정 요약")
         st.write(hotel_data['Refined_Negative'])
-
-# 감성 점수 시각화
+    # 감성 점수 시각화
 st.markdown("---")
 st.subheader("📊 항목별 평균 점수")
 
