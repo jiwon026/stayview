@@ -9,7 +9,7 @@ from folium.plugins import MarkerCluster
 data_path = "hotel_fin_0331_1.csv"
 df = pd.read_csv(data_path, encoding='euc-kr')
 st.set_page_config(page_title="호텔 리뷰 감성 요약", layout="wide")
-st.title("🏨 호텔 리뷰 요약 및 항목별 분석")
+st.title("🏨 STAY-VIEW💬")
 
 # 감성 항목
 aspect_columns = ['소음', '가격', '위치', '서비스', '청결', '편의시설']
