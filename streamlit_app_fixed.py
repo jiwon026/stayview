@@ -73,22 +73,9 @@ st.pydeck_chart(pdk.Deck(
 ))
 
 # 리뷰 요약 및 감성 점수 시각화
-if selected_hotel == "전체 보기":
-    map_df = region_df[['Latitude', 'Longitude']].dropna()
-    map_df.columns = ['lat', 'lon']
-    st.subheader(f"🗺️ {selected_region} 지역 호텔 지도")
-    st.map(map_df)
-
-else:
-    # 선택된 호텔 정보만 표시
+if selected_hotel != "전체 보기":
     hotel_data = region_df[region_df['Hotel'] == selected_hotel].iloc[0]
-    st.subheader(f"🗺️ '{selected_hotel}' 위치")
-    st.map(pd.DataFrame({
-        'lat': [hotel_data['Latitude']],
-        'lon': [hotel_data['Longitude']]
-    }))
 
-    # 요약 출력
     st.markdown("### ✨ 선택한 호텔 요약")
     col1, col2 = st.columns(2)
 
@@ -99,34 +86,34 @@ else:
     with col2:
         st.subheader("🚫 부정 요약")
         st.write(hotel_data['Refined_Negative'])
-    # 감성 점수 시각화
+
     st.markdown("---")
     st.subheader("📊 항목별 평균 점수")
-    
+
     # 점수 데이터 추출
     aspect_columns = ['소음', '가격', '위치', '서비스', '청결', '편의시설']
     aspect_scores = hotel_data[aspect_columns]
-    
+
     # DataFrame으로 변환
     score_df = pd.DataFrame({
         '항목': aspect_scores.index,
         '점수': aspect_scores.values
     })
-    
+
     # Altair 차트
     chart = alt.Chart(score_df).mark_bar().encode(
         x=alt.X('항목', sort=None),
         y='점수',
         color=alt.condition(
             alt.datum.점수 < 0,
-            alt.value('crimson'),      # 음수면 빨간색
-            alt.value('steelblue') # 양수면 파란색
+            alt.value('crimson'),
+            alt.value('steelblue')
         )
     ).properties(
         width=600,
         height=400
     )
-    
+
     st.altair_chart(chart, use_container_width=True)
     
 # Raw 데이터 보기
