@@ -15,7 +15,7 @@ st.title("🏨 STAY-VIEW")
 aspect_columns = ['소음', '가격', '위치', '서비스', '청결', '편의시설']
 
 # 지역 선택
-regions = df['Location'].unique()
+regions = sorted(df['Location'].unique())
 selected_region = st.radio("📍 지역을 선택하세요", regions, horizontal=True)
 
 # 지역 필터링
