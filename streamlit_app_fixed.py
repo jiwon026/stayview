@@ -43,25 +43,23 @@ selected_hotel = st.selectbox("🏨 호텔을 선택하세요", ["전체 보기"
 
 # 지도 데이터 준비
 if selected_hotel == "전체 보기":
-    # 지역 중심 좌표 사용
-    lat, lon = region_coords.get(selected_region, (None, None))
-    region_df['Latitude'] = lat
-    region_df['Longitude'] = lon
-
-    # 지역 전체 지도 표시
-    st.subheader(f"🗺️ {selected_region} 지역 호텔 지도")
     map_df = region_df[['Latitude', 'Longitude']].dropna()
     map_df.columns = ['lat', 'lon']
+    st.subheader(f"🗺️ {selected_region} 지역 호텔 지도")
     st.map(map_df)
+
+    # 원본 보기
+    with st.expander("📄 원본 데이터 보기"):
+        st.dataframe(region_df.reset_index(drop=True))
 
 else:
     # 선택된 호텔 정보만 표시
     hotel_data = region_df[region_df['Hotel'] == selected_hotel].iloc[0]
-
-    # 중심 좌표로 지도 만들기 (나중에 위경도 붙이면 더 정확히!)
-    lat, lon = region_coords.get(selected_region, (None, None))
     st.subheader(f"🗺️ '{selected_hotel}' 위치")
-    st.map(pd.DataFrame({'lat': [lat], 'lon': [lon]}))
+    st.map(pd.DataFrame({
+        'lat': [hotel_data['Latitude']],
+        'lon': [hotel_data['Longitude']]
+    }))
 
     # 요약 출력
     st.markdown("### ✨ 선택한 호텔 요약")
