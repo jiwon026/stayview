@@ -11,6 +11,21 @@ df = pd.read_csv(data_path, encoding='euc-kr')
 st.set_page_config(page_title="호텔 리뷰 감성 요약", layout="wide")
 st.title("🏨 호텔 리뷰 요약 및 항목별 분석")
 
+# 감성 항목
+aspect_columns = ['소음', '가격', '위치', '서비스', '청결', '편의시설']
+
+# 지역 선택
+regions = df['Location'].unique()
+selected_region = st.radio("📍 지역을 선택하세요", regions, horizontal=True)
+
+# 지역 필터링
+region_df = df[df['Location'] == selected_region]
+region_hotels = region_df['Hotel'].unique()
+
+# 호텔 선택
+selected_hotel = st.selectbox("🏨 호텔을 선택하세요", ["전체 보기"] + list(region_hotels))
+
+# 사이드바
 st.sidebar.title("🔍 항목별 상위 호텔")
 aspect_to_sort = st.sidebar.selectbox("정렬 기준", aspect_columns)
 
@@ -23,17 +38,6 @@ top_hotels = sorted_hotels[['Hotel', aspect_to_sort]].head(5)
 st.sidebar.markdown("#### 🏅 정렬 기준 Top 5")
 for idx, row in enumerate(top_hotels.itertuples(), 1):
     st.sidebar.write(f"**{idx}등🏅!** {row.Hotel}")
-
-# 지역 선택
-regions = df['Location'].unique()
-selected_region = st.radio("📍 지역을 선택하세요", regions, horizontal=True)
-
-# 지역 필터링
-region_df = df[df['Location'] == selected_region]
-region_hotels = region_df['Hotel'].unique()
-
-# 호텔 선택
-selected_hotel = st.selectbox("🏨 호텔을 선택하세요", ["전체 보기"] + list(region_hotels))
 
 # 구글 지도 생성 함수
 def create_google_map(dataframe, zoom_start=12):
@@ -113,7 +117,6 @@ else:
     st.subheader("📊 항목별 평균 점수")
     
     # 점수 데이터 추출
-    aspect_columns = ['소음', '가격', '위치', '서비스', '청결', '편의시설']
     aspect_scores = hotel_data[aspect_columns]
     
     # DataFrame으로 변환
