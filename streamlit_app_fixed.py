@@ -3,7 +3,7 @@ import pandas as pd
 import altair as alt
 
 # 수정된 CSV 파일 경로 (Streamlit Cloud용 상대 경로)
-data_path = "final_all_loc_all_fin_2.csv"
+data_path = "hotel_fin_0331_1.csv"
 df = pd.read_csv(data_path, encoding='euc-kr')
 
 # 도시별 중심 좌표 딕셔너리 추가
