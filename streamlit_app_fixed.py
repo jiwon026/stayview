@@ -11,6 +11,19 @@ df = pd.read_csv(data_path, encoding='euc-kr')
 st.set_page_config(page_title="호텔 리뷰 감성 요약", layout="wide")
 st.title("🏨 호텔 리뷰 요약 및 항목별 분석")
 
+st.sidebar.title("🔍 항목별 상위 호텔")
+aspect_to_sort = st.sidebar.selectbox("정렬 기준", aspect_columns)
+
+sorted_hotels = (
+    region_df.sort_values(by=aspect_to_sort, ascending=False)
+    .drop_duplicates(subset='Hotel')
+)
+
+top_hotels = sorted_hotels[['Hotel', aspect_to_sort]].head(5)
+st.sidebar.markdown("#### 🏅 정렬 기준 Top 5")
+for idx, row in enumerate(top_hotels.itertuples(), 1):
+    st.sidebar.write(f"**{idx}등🏅!** {row.Hotel}")
+
 # 지역 선택
 regions = df['Location'].unique()
 selected_region = st.radio("📍 지역을 선택하세요", regions, horizontal=True)
