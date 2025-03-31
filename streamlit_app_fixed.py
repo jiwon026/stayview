@@ -1,25 +1,13 @@
 import streamlit as st
 import pandas as pd
 import altair as alt
-import pydeck as pdk
+import folium
+from streamlit_folium import folium_static
+from folium.plugins import MarkerCluster
 
 # 수정된 CSV 파일 경로 (Streamlit Cloud용 상대 경로)
 data_path = "hotel_fin_0331_1.csv"
 df = pd.read_csv(data_path, encoding='euc-kr')
-
-# 도시별 중심 좌표 딕셔너리 추가
-region_coords = {
-    "서울": (37.5665, 126.9780),
-    "부산": (35.1796, 129.0756),
-    "대구": (35.8722, 128.6025),
-    "전주": (35.8242, 127.1480),
-    "제주": (33.4996, 126.5312),
-    "강릉": (37.7519, 128.8761),
-    "속초": (38.2044, 128.5912),
-    "경주": (35.8562, 129.2247),
-    "여수": (34.7604, 127.6622),
-}
-
 st.set_page_config(page_title="호텔 리뷰 감성 요약", layout="wide")
 st.title("🏨 호텔 리뷰 요약 및 항목별 분석")
 
@@ -70,7 +58,7 @@ def create_google_map(dataframe, zoom_start=12):
             ).add_to(m)
             
     return m
-    
+
 # 지도 데이터 준비
 if selected_hotel == "전체 보기":
     # 지역 내 모든 호텔 위치 표시
@@ -82,7 +70,6 @@ if selected_hotel == "전체 보기":
         folium_static(m, width=800)
     else:
         st.warning("지도에 표시할 위치 정보가 없습니다.")
-
 else:
     # 선택된 호텔 정보만 표시
     hotel_data = region_df[region_df['Hotel'] == selected_hotel].iloc[0]
@@ -137,7 +124,7 @@ else:
     )
     
     st.altair_chart(chart, use_container_width=True)
-
+    
 # Raw 데이터 보기
 with st.expander("📄 원본 데이터 보기"):
     if selected_hotel == "전체 보기":
