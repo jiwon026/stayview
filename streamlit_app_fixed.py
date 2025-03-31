@@ -41,7 +41,7 @@ def get_color(hotel):
     elif hotel == selected_hotel:
         return [255, 0, 0]  # 빨간색
     else:
-        return [180, 180, 180, 100]  # 회색
+        return [180, 180, 180, 150]  # 회색
 
 region_df["color"] = region_df["Hotel"].apply(get_color)
 
