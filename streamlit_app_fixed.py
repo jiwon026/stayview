@@ -106,4 +106,4 @@ else:
     
 # Raw 데이터 보기
 with st.expander("📄 원본 데이터 보기"):
-    st.dataframe(df[df['Hotel'] == selected_hotel].reset_index(drop=True))
+    st.dataframe(region_df[region_df['Hotel'] == selected_hotel].reset_index(drop=True))
