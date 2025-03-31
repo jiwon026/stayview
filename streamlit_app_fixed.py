@@ -102,7 +102,7 @@ else:
     m = create_google_map(hotel_map_df, zoom_start=15)
     folium_static(m, width=800)
     
-    # 요약 출력
+    # 호텔 리뷰 요약 출력
     st.markdown("### ✨ 선택한 호텔 요약")
     col1, col2 = st.columns(2)
     with col1:
@@ -139,27 +139,6 @@ else:
         height=400
     )
     
-    st.altair_chart(chart, use_container_width=True)
-
-    st.markdown("---")
-    st.subheader("📊 항목별 평균 점수")
-
-    scores = hotel_data[aspect_columns]
-    score_df = pd.DataFrame({
-        "항목": aspect_columns,
-        "점수": scores.values
-    })
-
-    chart = alt.Chart(score_df).mark_bar().encode(
-        x=alt.X('항목', sort=None, axis=alt.Axis(labelAngle=0)),
-        y=alt.Y('점수', axis=alt.Axis(titleAngle=0)),
-        color=alt.condition(
-            alt.datum.점수 < 0,
-            alt.value('crimson'),
-            alt.value('steelblue')
-        )
-    ).properties(width=600, height=400)
-
     st.altair_chart(chart, use_container_width=True)
     
 # Raw 데이터 보기
