@@ -1,4 +1,5 @@
 streamlit
 pandas
-import folium
-from streamlit_folium import folium_static
+altair
+folium
+streamlit_folium
