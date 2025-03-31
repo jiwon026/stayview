@@ -48,10 +48,6 @@ if selected_hotel == "전체 보기":
     st.subheader(f"🗺️ {selected_region} 지역 호텔 지도")
     st.map(map_df)
 
-    # 원본 보기
-    with st.expander("📄 원본 데이터 보기"):
-        st.dataframe(region_df.reset_index(drop=True))
-
 else:
     # 선택된 호텔 정보만 표시
     hotel_data = region_df[region_df['Hotel'] == selected_hotel].iloc[0]
