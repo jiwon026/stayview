@@ -8,7 +8,7 @@ import streamlit as st
 from PIL import Image
 
 # CSV 파일 경로
-data_path = "hotel_fin_0331_2.csv"
+data_path = "hotel_fin_0331_1.csv"
 df = pd.read_csv(data_path, encoding='euc-kr')
 
 import streamlit as st
@@ -18,10 +18,10 @@ from PIL import Image
 st.set_page_config(layout="wide", page_title="Stay-view")
 
 # 이미지 불러오기 (배경 or 상단용)
-image = Image.open("image.png")
+#image = Image.open("image.png")
 
 # 이미지 1/3 크기로 출력
-st.image(image, width=int(image.width / 3))
+#st.image(image, width=int(image.width / 3))
 
 # HTML 스타일 커스터마이징
 st.markdown("""
