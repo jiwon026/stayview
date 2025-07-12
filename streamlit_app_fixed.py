@@ -37,7 +37,7 @@ sorted_hotels = (
 top_hotels = sorted_hotels[['Hotel', aspect_to_sort]].head(5)
 st.sidebar.markdown("#### 🏅 정렬 기준 Top 5")
 for idx, row in enumerate(top_hotels.itertuples(), 1):
-    st.sidebar.write(f"**{idx}등🏅!** {row.Hotel}")
+    st.sidebar.write(f"**🏅{idx}등!** {row.Hotel}")
 
 # 구글 지도 생성 함수
 def create_google_map(dataframe, zoom_start=12):
