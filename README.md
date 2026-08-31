@@ -1,7 +1,5 @@
 # 🏨 Stay-View — 숙소 리뷰 요약 및 감성분석 AI
 
-# Stay-View
-
 Booking.com 리뷰를 분석해 숙소를 지도와 항목별 점수로 탐색하는 Streamlit 앱.
 
 배포: https://stayview-11.streamlit.app/
